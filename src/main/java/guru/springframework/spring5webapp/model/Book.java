@@ -9,9 +9,13 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     private String title;
     private String isbn;
+
+    @ManyToOne
+    @JoinColumn(name = "publisher_id") // this is giving Hibernate a hint to add a publisher_id field to Book record
+    private Publisher publisher;
 
     /*
     Part 2
@@ -24,6 +28,7 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     private Set<Author> authors = new HashSet<>();
 
+    // init
     public Book() {
         System.out.println("Book: Parameter less constructor called");
     }
@@ -34,11 +39,22 @@ public class Book {
 //        this.authors = authors;
     }
 
-    public long getId() {
+    // getters and setters
+
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -75,12 +91,12 @@ public class Book {
 
         Book book = (Book) o;
 
-        return id == book.id;
+        return id != null ? id.equals(book.id) : book.id == null;
     }
 
     @Override
     public int hashCode() {
-        return (int) (id ^ (id >>> 32));
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override

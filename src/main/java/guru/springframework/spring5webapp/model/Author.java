@@ -36,6 +36,14 @@ public class Author {
 //        this.books = books;
     }
 
+    public Author(String firstName, String lastName, Set<Book> books) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.books = books;
+    }
+
+
+    // getters and setters
     public Long getId() {
         return id;
     }
